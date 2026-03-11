@@ -3,5 +3,6 @@
 .venv/
 dist/
 build/
+docs/_build/
 *.pyc
 __pycache__/
