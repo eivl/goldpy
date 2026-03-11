@@ -1,4 +1,9 @@
-"""Typer CLI entry point."""
+"""Command-line interface for ``goldpy``.
+
+The CLI stays intentionally direct. It exposes one command that answers the
+question the project was built around, while still giving enough switches to
+inspect the quote sources when needed.
+"""
 
 from __future__ import annotations
 
@@ -21,13 +26,15 @@ app = typer.Typer(no_args_is_help=True, add_completion=False)
 
 
 class SelectionMode(str, Enum):
+    """Selection strategies exposed by the CLI."""
+
     aggregate = "aggregate"
     tightest = "tightest"
 
 
 @app.callback()
 def main() -> None:
-    """Swissquote precious metal quote utilities."""
+    """Provide Swissquote precious metal quote utilities."""
 
 
 @app.command()
@@ -49,7 +56,26 @@ def price(
         help="List platforms and spread profiles available for the requested pair.",
     ),
 ) -> None:
-    """Fetch and print a precious metal quote."""
+    """Fetch and print a precious metal quote.
+
+    :param pair:
+        Instrument pair in ``BASE/QUOTE`` form.
+    :param json_output:
+        When ``True``, print structured JSON instead of terminal text.
+    :param platform:
+        Optional platform filter.
+    :param spread_profile:
+        Optional spread profile filter.
+    :param mode:
+        Quote selection strategy.
+    :param timeout:
+        Request timeout in seconds.
+    :param list_options:
+        When ``True``, print available platforms and spread profiles for the
+        requested pair instead of a quote.
+    :raises typer.Exit:
+        Raised with exit code ``1`` when quote retrieval or selection fails.
+    """
 
     normalized_pair = normalize_pair(pair)
     client = SwissquoteClient(timeout=timeout)
@@ -88,12 +114,28 @@ def _select(
     spread_profile: str | None,
     mode: SelectionMode,
 ) -> NormalizedQuote:
+    """Dispatch to the requested selection strategy.
+
+    :param pair:
+        Normalized instrument pair.
+    :param quotes:
+        Raw quotes from the client.
+    :param platform:
+        Optional platform filter.
+    :param spread_profile:
+        Optional spread profile filter.
+    :param mode:
+        Selected CLI mode.
+    :returns:
+        The normalized quote chosen by the selected strategy.
+    """
     if mode is SelectionMode.aggregate:
         return select_quote(pair, quotes, platform=platform, spread_profile=spread_profile)
     return select_tightest_quote(pair, quotes, platform=platform, spread_profile=spread_profile)
 
 
 def _format_quote(quote: NormalizedQuote) -> str:
+    """Format a normalized quote for terminal output."""
     return "\n".join(
         [
             f"Pair: {quote.pair}",
@@ -118,5 +160,6 @@ def _format_quote(quote: NormalizedQuote) -> str:
 
 
 def _print_error(message: str) -> int:
+    """Print an error message to stderr and return the exit status."""
     typer.echo(f"Error: {message}", err=True)
     return 1

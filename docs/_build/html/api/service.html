@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>goldpy.service &mdash; goldpy 0.1.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=a58bc63e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="goldpy.cli" href="cli.html" />
+    <link rel="prev" title="goldpy.models" href="models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            goldpy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../usage.html">Usage</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="package.html"><code class="docutils literal notranslate"><span class="pre">goldpy</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="client.html"><code class="docutils literal notranslate"><span class="pre">goldpy.client</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html"><code class="docutils literal notranslate"><span class="pre">goldpy.models</span></code></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">goldpy.service</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#goldpy.service.QuoteSelectionError"><code class="docutils literal notranslate"><span class="pre">QuoteSelectionError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goldpy.service.CandidatePrice"><code class="docutils literal notranslate"><span class="pre">CandidatePrice</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#goldpy.service.CandidatePrice.from_raw"><code class="docutils literal notranslate"><span class="pre">CandidatePrice.from_raw()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#goldpy.service.normalize_pair"><code class="docutils literal notranslate"><span class="pre">normalize_pair()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goldpy.service.select_quote"><code class="docutils literal notranslate"><span class="pre">select_quote()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goldpy.service.select_tightest_quote"><code class="docutils literal notranslate"><span class="pre">select_tightest_quote()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goldpy.service.available_platforms"><code class="docutils literal notranslate"><span class="pre">available_platforms()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#goldpy.service.available_spread_profiles"><code class="docutils literal notranslate"><span class="pre">available_spread_profiles()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="cli.html"><code class="docutils literal notranslate"><span class="pre">goldpy.cli</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../readthedocs.html">Read the Docs</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">goldpy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">API reference</a></li>
+      <li class="breadcrumb-item active"><code class="docutils literal notranslate"><span class="pre">goldpy.service</span></code></li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/service.md.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-goldpy.service">
+<span id="goldpy-service"></span><h1><code class="docutils literal notranslate"><span class="pre">goldpy.service</span></code><a class="headerlink" href="#module-goldpy.service" title="Link to this heading"></a></h1>
+<p>Quote normalization and selection logic.</p>
+<p>This module is where the raw upstream feed becomes something easier to reason
+about. It handles pair validation, filtering, and the two quote selection
+strategies exposed by the CLI.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="goldpy.service.QuoteSelectionError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goldpy.service.</span></span><span class="sig-name descname"><span class="pre">QuoteSelectionError</span></span><a class="headerlink" href="#goldpy.service.QuoteSelectionError" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="client.html#goldpy.client.GoldpyError" title="goldpy.client.GoldpyError"><code class="xref py py-class docutils literal notranslate"><span class="pre">GoldpyError</span></code></a></p>
+<p>Raised when quote selection cannot produce a result.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="goldpy.service.CandidatePrice">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">goldpy.service.</span></span><span class="sig-name descname"><span class="pre">CandidatePrice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">platform</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">server</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spread_profile</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spread</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mid</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goldpy.service.CandidatePrice" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Internal flattened quote candidate used during selection.</p>
+<p>The upstream payload nests prices under each source. For selection logic it
+is easier to work with one record per source/profile combination.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>platform</strong> (<em>str</em>)</p></li>
+<li><p><strong>server</strong> (<em>str</em>)</p></li>
+<li><p><strong>spread_profile</strong> (<em>str</em>)</p></li>
+<li><p><strong>bid</strong> (<em>object</em>)</p></li>
+<li><p><strong>ask</strong> (<em>object</em>)</p></li>
+<li><p><strong>timestamp</strong> (<em>object</em>)</p></li>
+<li><p><strong>spread</strong> (<em>object</em>)</p></li>
+<li><p><strong>mid</strong> (<em>object</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="goldpy.service.CandidatePrice.from_raw">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_raw</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quote</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">price</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goldpy.service.CandidatePrice.from_raw" title="Link to this definition"></a></dt>
+<dd><p>Build a candidate from a raw quote and one spread-profile price.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>quote</strong> (<a class="reference internal" href="models.html#goldpy.models.RawQuote" title="goldpy.models.RawQuote"><em>RawQuote</em></a>) – Raw quote source metadata.</p></li>
+<li><p><strong>price</strong> (<a class="reference internal" href="models.html#goldpy.models.SpreadProfilePrice" title="goldpy.models.SpreadProfilePrice"><em>SpreadProfilePrice</em></a>) – One spread-profile price entry from that source.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A flattened <a class="reference internal" href="#goldpy.service.CandidatePrice" title="goldpy.service.CandidatePrice"><code class="xref py py-class docutils literal notranslate"><span class="pre">CandidatePrice</span></code></a> instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#goldpy.service.CandidatePrice" title="goldpy.service.CandidatePrice"><em>CandidatePrice</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goldpy.service.normalize_pair">
+<span class="sig-prename descclassname"><span class="pre">goldpy.service.</span></span><span class="sig-name descname"><span class="pre">normalize_pair</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goldpy.service.normalize_pair" title="Link to this definition"></a></dt>
+<dd><p>Normalize and validate an instrument pair string.</p>
+<p>The function accepts small variations in user input, trims whitespace, and
+uppercases both sides before validating the final <code class="docutils literal notranslate"><span class="pre">BASE/QUOTE</span></code> shape.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pair</strong> (<em>str</em>) – Pair supplied by the caller.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Normalized pair string.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#goldpy.service.QuoteSelectionError" title="goldpy.service.QuoteSelectionError"><strong>QuoteSelectionError</strong></a> – If the pair does not look like <code class="docutils literal notranslate"><span class="pre">BASE/QUOTE</span></code>.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goldpy.service.select_quote">
+<span class="sig-prename descclassname"><span class="pre">goldpy.service.</span></span><span class="sig-name descname"><span class="pre">select_quote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quotes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spread_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goldpy.service.select_quote" title="Link to this definition"></a></dt>
+<dd><p>Select an aggregate quote from the available candidates.</p>
+<p>The aggregate strategy chooses the best bid and best ask independently,
+then computes a midpoint from those two values. I like this mode because it
+answers the simple question of where the market edges currently sit.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair</strong> (<em>str</em>) – Instrument pair being requested.</p></li>
+<li><p><strong>quotes</strong> (<em>list</em><em>[</em><a class="reference internal" href="models.html#goldpy.models.RawQuote" title="goldpy.models.RawQuote"><em>RawQuote</em></a><em>]</em>) – Raw quote sources returned by the client.</p></li>
+<li><p><strong>platform</strong> (<em>str</em><em> | </em><em>None</em>) – Optional platform filter.</p></li>
+<li><p><strong>spread_profile</strong> (<em>str</em><em> | </em><em>None</em>) – Optional spread profile filter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A normalized quote using the aggregate strategy.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#goldpy.service.QuoteSelectionError" title="goldpy.service.QuoteSelectionError"><strong>QuoteSelectionError</strong></a> – If filtering leaves no valid candidates.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="models.html#goldpy.models.NormalizedQuote" title="goldpy.models.NormalizedQuote"><em>NormalizedQuote</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goldpy.service.select_tightest_quote">
+<span class="sig-prename descclassname"><span class="pre">goldpy.service.</span></span><span class="sig-name descname"><span class="pre">select_tightest_quote</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pair</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quotes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">platform</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spread_profile</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goldpy.service.select_tightest_quote" title="Link to this definition"></a></dt>
+<dd><p>Select the tightest single quote from the available candidates.</p>
+<p>This strategy keeps bid and ask together from one source/profile pair.
+When two candidates share the same spread, the higher midpoint wins.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pair</strong> (<em>str</em>) – Instrument pair being requested.</p></li>
+<li><p><strong>quotes</strong> (<em>list</em><em>[</em><a class="reference internal" href="models.html#goldpy.models.RawQuote" title="goldpy.models.RawQuote"><em>RawQuote</em></a><em>]</em>) – Raw quote sources returned by the client.</p></li>
+<li><p><strong>platform</strong> (<em>str</em><em> | </em><em>None</em>) – Optional platform filter.</p></li>
+<li><p><strong>spread_profile</strong> (<em>str</em><em> | </em><em>None</em>) – Optional spread profile filter.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A normalized quote using the tightest strategy.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#goldpy.service.QuoteSelectionError" title="goldpy.service.QuoteSelectionError"><strong>QuoteSelectionError</strong></a> – If filtering leaves no valid candidates.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="models.html#goldpy.models.NormalizedQuote" title="goldpy.models.NormalizedQuote"><em>NormalizedQuote</em></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goldpy.service.available_platforms">
+<span class="sig-prename descclassname"><span class="pre">goldpy.service.</span></span><span class="sig-name descname"><span class="pre">available_platforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quotes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goldpy.service.available_platforms" title="Link to this definition"></a></dt>
+<dd><p>Return the sorted list of distinct platforms in the raw quotes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>quotes</strong> (<em>list</em><em>[</em><a class="reference internal" href="models.html#goldpy.models.RawQuote" title="goldpy.models.RawQuote"><em>RawQuote</em></a><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="goldpy.service.available_spread_profiles">
+<span class="sig-prename descclassname"><span class="pre">goldpy.service.</span></span><span class="sig-name descname"><span class="pre">available_spread_profiles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">quotes</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#goldpy.service.available_spread_profiles" title="Link to this definition"></a></dt>
+<dd><p>Return the sorted list of distinct spread profiles in the raw quotes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>quotes</strong> (<em>list</em><em>[</em><a class="reference internal" href="models.html#goldpy.models.RawQuote" title="goldpy.models.RawQuote"><em>RawQuote</em></a><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>list[str]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="models.html" class="btn btn-neutral float-left" title="goldpy.models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="cli.html" class="btn btn-neutral float-right" title="goldpy.cli" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, eivl.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

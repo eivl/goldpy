@@ -1,0 +1,44 @@
+# API reference
+
+The API docs below are generated from the package modules. This page is curated
+to highlight the public surface and leave out internal helpers that are only
+there to keep the implementation tidy.
+
+## Package
+
+```{eval-rst}
+.. automodule:: goldpy
+   :members:
+```
+
+## `goldpy.client`
+
+```{eval-rst}
+.. automodule:: goldpy.client
+   :members:
+   :show-inheritance:
+```
+
+## `goldpy.models`
+
+```{eval-rst}
+.. automodule:: goldpy.models
+   :members:
+   :show-inheritance:
+```
+
+## `goldpy.service`
+
+```{eval-rst}
+.. automodule:: goldpy.service
+   :members:
+   :show-inheritance:
+   :exclude-members: _filter_candidates
+```
+
+## `goldpy.cli`
+
+```{eval-rst}
+.. automodule:: goldpy.cli
+   :members: SelectionMode, main, price
+```

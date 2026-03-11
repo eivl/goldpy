@@ -94,6 +94,21 @@ uv run --group dev coverage report -m
 
 The test suite is configured to require 100% coverage.
 
+## Documentation
+
+This repository now includes a Sphinx setup that uses Markdown via MyST, so
+you do not need to write reStructuredText.
+
+Build the docs locally:
+
+```bash
+uv sync --group dev --group docs
+uv run --group docs sphinx-build -b html docs docs/_build/html
+```
+
+The project also includes a `.readthedocs.yaml` file for publishing on Read the
+Docs.
+
 ## Releases
 
 This project publishes from Git tags that match `v*`, for example `v0.1.0`.

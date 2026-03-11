@@ -1,4 +1,9 @@
-"""Quote normalization and selection logic."""
+"""Quote normalization and selection logic.
+
+This module is where the raw upstream feed becomes something easier to reason
+about. It handles pair validation, filtering, and the two quote selection
+strategies exposed by the CLI.
+"""
 
 from __future__ import annotations
 
@@ -9,11 +14,17 @@ from goldpy.models import NormalizedQuote, PriceSelection, RawQuote, SpreadProfi
 
 
 class QuoteSelectionError(GoldpyError):
-    """Raised when no quote matches the requested filters."""
+    """Raised when quote selection cannot produce a result."""
 
 
 @dataclass(frozen=True)
 class CandidatePrice:
+    """Internal flattened quote candidate used during selection.
+
+    The upstream payload nests prices under each source. For selection logic it
+    is easier to work with one record per source/profile combination.
+    """
+
     platform: str
     server: str
     spread_profile: str
@@ -25,6 +36,15 @@ class CandidatePrice:
 
     @classmethod
     def from_raw(cls, quote: RawQuote, price: SpreadProfilePrice) -> "CandidatePrice":
+        """Build a candidate from a raw quote and one spread-profile price.
+
+        :param quote:
+            Raw quote source metadata.
+        :param price:
+            One spread-profile price entry from that source.
+        :returns:
+            A flattened :class:`CandidatePrice` instance.
+        """
         return cls(
             platform=quote.topo.platform,
             server=quote.topo.server,
@@ -38,6 +58,18 @@ class CandidatePrice:
 
 
 def normalize_pair(pair: str) -> str:
+    """Normalize and validate an instrument pair string.
+
+    The function accepts small variations in user input, trims whitespace, and
+    uppercases both sides before validating the final ``BASE/QUOTE`` shape.
+
+    :param pair:
+        Pair supplied by the caller.
+    :returns:
+        Normalized pair string.
+    :raises QuoteSelectionError:
+        If the pair does not look like ``BASE/QUOTE``.
+    """
     cleaned = pair.strip().upper()
     parts = [part for part in cleaned.split("/") if part]
     if len(parts) != 2 or any(len(part) < 3 for part in parts):
@@ -51,6 +83,25 @@ def select_quote(
     platform: str | None = None,
     spread_profile: str | None = None,
 ) -> NormalizedQuote:
+    """Select an aggregate quote from the available candidates.
+
+    The aggregate strategy chooses the best bid and best ask independently,
+    then computes a midpoint from those two values. I like this mode because it
+    answers the simple question of where the market edges currently sit.
+
+    :param pair:
+        Instrument pair being requested.
+    :param quotes:
+        Raw quote sources returned by the client.
+    :param platform:
+        Optional platform filter.
+    :param spread_profile:
+        Optional spread profile filter.
+    :returns:
+        A normalized quote using the aggregate strategy.
+    :raises QuoteSelectionError:
+        If filtering leaves no valid candidates.
+    """
     candidates = _filter_candidates(quotes, platform=platform, spread_profile=spread_profile)
     best_bid = max(candidates, key=lambda item: item.bid)
     best_ask = min(candidates, key=lambda item: item.ask)
@@ -84,6 +135,24 @@ def select_tightest_quote(
     platform: str | None = None,
     spread_profile: str | None = None,
 ) -> NormalizedQuote:
+    """Select the tightest single quote from the available candidates.
+
+    This strategy keeps bid and ask together from one source/profile pair.
+    When two candidates share the same spread, the higher midpoint wins.
+
+    :param pair:
+        Instrument pair being requested.
+    :param quotes:
+        Raw quote sources returned by the client.
+    :param platform:
+        Optional platform filter.
+    :param spread_profile:
+        Optional spread profile filter.
+    :returns:
+        A normalized quote using the tightest strategy.
+    :raises QuoteSelectionError:
+        If filtering leaves no valid candidates.
+    """
     candidates = _filter_candidates(quotes, platform=platform, spread_profile=spread_profile)
     chosen = min(candidates, key=lambda item: (item.spread, -item.mid))
     return NormalizedQuote(
@@ -110,10 +179,12 @@ def select_tightest_quote(
 
 
 def available_platforms(quotes: list[RawQuote]) -> list[str]:
+    """Return the sorted list of distinct platforms in the raw quotes."""
     return sorted({quote.topo.platform for quote in quotes})
 
 
 def available_spread_profiles(quotes: list[RawQuote]) -> list[str]:
+    """Return the sorted list of distinct spread profiles in the raw quotes."""
     return sorted(
         {
             price.spread_profile
@@ -128,6 +199,19 @@ def _filter_candidates(
     platform: str | None,
     spread_profile: str | None,
 ) -> list[CandidatePrice]:
+    """Filter raw quotes into flattened candidates ready for selection.
+
+    :param quotes:
+        Raw quotes from the upstream API.
+    :param platform:
+        Optional platform filter.
+    :param spread_profile:
+        Optional spread profile filter.
+    :returns:
+        Candidate prices matching the requested filters.
+    :raises QuoteSelectionError:
+        If no candidates remain after filtering.
+    """
     candidates: list[CandidatePrice] = []
     for quote in quotes:
         if platform and quote.topo.platform != platform:

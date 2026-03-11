@@ -1,4 +1,9 @@
-"""HTTP client for Swissquote quote retrieval."""
+"""HTTP client helpers for Swissquote quote retrieval.
+
+The client layer aims to do one job well: ask Swissquote for raw quote data
+and turn the response into validated application models. Everything beyond
+that belongs in the service layer.
+"""
 
 from __future__ import annotations
 
@@ -12,25 +17,43 @@ BASE_URL = "https://forex-data-feed.swissquote.com/public-quotes/bboquotes/instr
 
 
 class GoldpyError(Exception):
-    """Base application error."""
+    """Base class for application-specific errors."""
 
 
 class QuoteRequestError(GoldpyError):
-    """Raised when an upstream HTTP request fails."""
+    """Raised when the upstream HTTP request fails."""
 
 
 class QuoteValidationError(GoldpyError):
-    """Raised when the upstream response shape is invalid."""
+    """Raised when the upstream response cannot be validated."""
 
 
 class SwissquoteClient:
-    """Thin HTTP wrapper around the Swissquote quote endpoint."""
+    """Fetch raw quotes from the Swissquote public endpoint.
+
+    :param timeout:
+        Request timeout in seconds.
+    :param http_client:
+        Optional preconfigured :class:`httpx.Client`. Passing one is useful in
+        tests and when a caller wants to manage connection reuse explicitly.
+    """
 
     def __init__(self, timeout: float = 10.0, http_client: httpx.Client | None = None) -> None:
         self.timeout = timeout
         self._http_client = http_client
 
     def fetch(self, pair: str) -> list[RawQuote]:
+        """Fetch and validate quotes for an instrument pair.
+
+        :param pair:
+            Instrument pair in ``BASE/QUOTE`` form, for example ``XAU/USD``.
+        :returns:
+            A list of validated :class:`goldpy.models.RawQuote` objects.
+        :raises QuoteRequestError:
+            If the HTTP request fails or returns a non-success status code.
+        :raises QuoteValidationError:
+            If Swissquote returns data that does not match the expected schema.
+        """
         url = f"{BASE_URL}/{pair}"
         try:
             response = self._client.get(url, timeout=self.timeout)
@@ -46,6 +69,12 @@ class SwissquoteClient:
 
     @property
     def _client(self) -> httpx.Client:
+        """Return the configured HTTP client.
+
+        If no client was injected, a fresh :class:`httpx.Client` is created on
+        demand. That keeps the implementation simple, even if it is not trying
+        to be a full connection-management abstraction.
+        """
         if self._http_client is not None:
             return self._http_client
         return httpx.Client()
