@@ -1,0 +1,14 @@
+{
+  "pair": "XAU/USD",
+  "platforms": [
+    "AT",
+    "SwissquoteCapitalMarkets",
+    "SwissquoteLtd"
+  ],
+  "spread_profiles": [
+    "elite",
+    "premium",
+    "prime",
+    "standard"
+  ]
+}

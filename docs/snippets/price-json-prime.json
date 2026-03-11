@@ -1,0 +1,21 @@
+{
+  "pair": "XAU/USD",
+  "bid": "5177.183",
+  "ask": "5177.817",
+  "mid": "5177.500",
+  "timestamp": "2026-03-11T15:24:18.815000Z",
+  "selection_mode": "aggregate",
+  "sources_considered": 3,
+  "bid_selection": {
+    "platform": "SwissquoteLtd",
+    "server": "Live5",
+    "spread_profile": "prime",
+    "value": "5177.183"
+  },
+  "ask_selection": {
+    "platform": "SwissquoteLtd",
+    "server": "Live5",
+    "spread_profile": "prime",
+    "value": "5177.817"
+  }
+}

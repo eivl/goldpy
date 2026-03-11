@@ -13,16 +13,8 @@ uv run goldpy price
 
 Example output:
 
-```text
-Pair: XAU/USD
-Mode: aggregate
-Bid: 3021.45
-Ask: 3021.73
-Mid: 3021.59
-Timestamp: 2026-03-11T13:42:10.123000+00:00
-Sources considered: 8
-Best bid from: SwissquoteCapitalMarkets/live-1 (prime)
-Best ask from: SwissquoteBank/live-2 (prime)
+```{literalinclude} snippets/price-default.txt
+:language: text
 ```
 
 ## Run without installing permanently via `uvx`
@@ -61,28 +53,8 @@ uvx goldpy-cli price --json
 
 Example output:
 
-```json
-{
-  "pair": "XAU/USD",
-  "bid": "3021.45",
-  "ask": "3021.73",
-  "mid": "3021.59",
-  "timestamp": "2026-03-11T13:42:10.123000Z",
-  "selection_mode": "aggregate",
-  "sources_considered": 8,
-  "bid_selection": {
-    "platform": "SwissquoteCapitalMarkets",
-    "server": "live-1",
-    "spread_profile": "prime",
-    "value": "3021.45"
-  },
-  "ask_selection": {
-    "platform": "SwissquoteBank",
-    "server": "live-2",
-    "spread_profile": "prime",
-    "value": "3021.73"
-  }
-}
+```{literalinclude} snippets/price-json-prime.json
+:language: json
 ```
 
 ## Different pair
@@ -107,19 +79,8 @@ goldpy price --list-options
 
 Example output:
 
-```json
-{
-  "pair": "XAU/USD",
-  "platforms": [
-    "SwissquoteBank",
-    "SwissquoteCapitalMarkets"
-  ],
-  "spread_profiles": [
-    "premium",
-    "prime",
-    "standard"
-  ]
-}
+```{literalinclude} snippets/price-list-options.json
+:language: json
 ```
 
 ## Filter by platform and spread profile

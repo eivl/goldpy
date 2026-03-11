@@ -1,0 +1,9 @@
+Pair: XAU/USD
+Mode: aggregate
+Bid: 5177.248
+Ask: 5177.752
+Mid: 5177.500
+Timestamp: 2026-03-11T15:24:18.815000+00:00
+Sources considered: 9
+Best bid from: SwissquoteCapitalMarkets/Live7 (elite)
+Best ask from: SwissquoteCapitalMarkets/Live7 (elite)
