@@ -94,6 +94,32 @@ uv run --group dev coverage report -m
 
 The test suite is configured to require 100% coverage.
 
+## Releases
+
+This project publishes from Git tags that match `v*`, for example `v0.1.0`.
+
+Typical release flow:
+
+```bash
+uv version --bump patch
+git commit -am "Bump version to $(uv version --short)" -m "Co-authored-by: OpenAI Codex <codex@openai.com>"
+git tag "v$(uv version --short)"
+git push origin main --tags
+```
+
+The GitHub Actions release workflow builds the sdist and wheel, then publishes
+them to PyPI using trusted publishing via `pypa/gh-action-pypi-publish`. It
+also checks that the pushed tag exactly matches the version declared in
+`pyproject.toml`.
+
+### Versioning
+
+`goldpy` uses straightforward semantic versioning:
+
+- Patch releases for fixes and small internal improvements
+- Minor releases for new CLI options or behavior that stays backward compatible
+- Major releases for breaking CLI or output changes
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

@@ -18,6 +18,16 @@ jobs:
       - name: Set up uv
         uses: astral-sh/setup-uv@v6
 
+      - name: Verify tag matches project version
+        shell: bash
+        run: |
+          project_version="$(uv version --short)"
+          tag_version="${GITHUB_REF_NAME#v}"
+          if [[ "${tag_version}" != "${project_version}" ]]; then
+            echo "Tag version ${tag_version} does not match project version ${project_version}."
+            exit 1
+          fi
+
       - name: Set up Python
         run: uv python install 3.14
 
