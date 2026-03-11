@@ -1,5 +1,5 @@
 [project]
-name = "goldpy"
+name = "goldpy-cli"
 version = "0.1.0"
 description = "A small CLI for checking Swissquote gold prices from the terminal."
 readme = "README.md"

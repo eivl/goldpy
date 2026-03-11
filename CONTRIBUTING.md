@@ -47,6 +47,9 @@ Releases are driven by Git tags like `v0.1.0`. Pushing a matching tag triggers
 the GitHub Actions release workflow, which publishes to PyPI through trusted
 publishing.
 
+The published PyPI distribution name is `goldpy-cli`. The repository name and
+installed CLI command remain `goldpy`.
+
 Recommended release flow:
 
 ```bash

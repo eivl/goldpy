@@ -1,7 +1,7 @@
 # goldpy
 
 [![Tests](https://github.com/eivl/goldpy/actions/workflows/test.yml/badge.svg)](https://github.com/eivl/goldpy/actions/workflows/test.yml)
-[![PyPI](https://img.shields.io/pypi/v/goldpy.svg)](https://pypi.org/project/goldpy/)
+[![PyPI](https://img.shields.io/pypi/v/goldpy-cli.svg)](https://pypi.org/project/goldpy-cli/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 `goldpy` is a command line tool for people who want a fast answer to a simple
@@ -36,7 +36,7 @@ uv sync --group dev
 Once published to PyPI, the intended install will be:
 
 ```bash
-uv tool install goldpy
+uv tool install goldpy-cli
 ```
 
 ## Usage
